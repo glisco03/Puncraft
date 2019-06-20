@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Puncraft">
+    <output-path>$USER_HOME$/Documents/Java Exports</output-path>
+    <root id="archive" name="Puncraft.jar">
+      <element id="module-output" name="Puncraft" />
+    </root>
+  </artifact>
+</component>

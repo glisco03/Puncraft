@@ -145,7 +145,9 @@ public class PuntestManager {
 		//System.out.println(reversePlaces);
 		int i = 1;
 		
-		for(int l = 0 ; l < reversePlaces.size(); l++) {places.add("k");}
+		for(int l = 0 ; l < reversePlaces.size(); l++) {
+			places.add("k");
+		}
 		//System.out.println(places);
 		for(String uuid : reversePlaces) {
 			places.set(reversePlaces.size() - i, uuid);
