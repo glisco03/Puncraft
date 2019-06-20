@@ -1,0 +1,36 @@
+name: Puncraft
+version: 1.0
+author: glisco03
+main: com.glisco03.Puncraft.main.main
+api-version: 1.14
+commands:
+  umfrage:
+    usage: /<command> start/stop/info [Frage]
+    description: Steuert Umfragen
+  stickwand:
+    usage: /<command>
+    description: Gibt dir den StickWand
+  register:
+    usage: /<command> <Playername>
+    description: Registriert den Spieler
+  unregister:
+    usage: /<command> <Playername>
+    description: Hebt die Registrierung des Spielers auf
+  freeze:
+    usage: /<command> <Playername>
+    description: Freezes Players 
+  combiner:
+    usage: /<command>
+    description: Oeffnet den Combiner
+  getitem:
+    usage: /<command>
+    description: Debug tool
+  puntest:
+    usage: /<command>
+    description: Puntest
+#  infinity:
+#    usage: /<command>
+#    description: Oeffnet die Unendlichkeit
+#  setinfi:
+#    usage: /<command>
+#    description: Definiert die Unendlichkeit
