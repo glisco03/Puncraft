@@ -2,6 +2,7 @@ package com.glisco03.Puncraft.main;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -11,7 +12,11 @@ public class recipes {
 	public static ShapedRecipe flyrecp;
 	
 	public recipes() {
+		/*for(Player p:Bukkit.getOnlinePlayers()){
+			p.sendMessage("Adding Recipes");
+		}*/
 		addTweakRecipes();
+		addFlyBootRecipes();
 	}
 	
 	@SuppressWarnings("unused")
@@ -74,17 +79,17 @@ public class recipes {
 	}
 
 	private void addTweakRecipes() {
-		ShapedRecipe cobweb = new ShapedRecipe(main.key("cobweb"), new ItemStack(Material.COBWEB)).shape(" m ", "wsw", " w ");
+		/*ShapedRecipe cobweb = new ShapedRecipe(main.key("cobweb"), new ItemStack(Material.COBWEB)).shape(" m ", "wsw", " w ");
 		cobweb.setIngredient('m', Material.BROWN_MUSHROOM);
 		cobweb.setIngredient('w', Material.STRING);
 		cobweb.setIngredient('s', Material.STICK);
-		Bukkit.addRecipe(cobweb);
+		Bukkit.addRecipe(cobweb);*/
 		
-		ShapedRecipe BlockBreaker = new ShapedRecipe(main.key("BlockBreaker"), vars.BlockBreaker).shape("crc", "rpr", "crc");
+		/*ShapedRecipe BlockBreaker = new ShapedRecipe(main.key("BlockBreaker"), vars.BlockBreaker).shape("crc", "rpr", "crc");
 		BlockBreaker.setIngredient('c', Material.COBBLESTONE);
 		BlockBreaker.setIngredient('r', Material.REDSTONE);
 		BlockBreaker.setIngredient('p', Material.DIAMOND_PICKAXE);
-		Bukkit.addRecipe(BlockBreaker);
+		Bukkit.addRecipe(BlockBreaker);*/
 		
 		ShapedRecipe prismarine = new ShapedRecipe(main.key("prismarine"), new ItemStack(Material.PRISMARINE, 8)).shape("ccc", "cfc", "ccc");
 		prismarine.setIngredient('c', Material.COBBLESTONE);
@@ -106,7 +111,7 @@ public class recipes {
 		sealantern.setIngredient('f', Material.COD);
 		Bukkit.addRecipe(sealantern);
 		
-		ShapedRecipe lilypad = new ShapedRecipe(main.key("leaves"), new ItemStack(Material.LILY_PAD)).shape("lll", "lll", "lll");
+		/*ShapedRecipe lilypad = new ShapedRecipe(main.key("leaves"), new ItemStack(Material.LILY_PAD)).shape("lll", "lll", "lll");
 		lilypad.setIngredient('l', Material.OAK_LEAVES);
 		Bukkit.addRecipe(lilypad);
 		
@@ -114,7 +119,7 @@ public class recipes {
 		slimeball.setIngredient('v', Material.VINE);
 		slimeball.setIngredient('l', Material.LILY_PAD);
 		slimeball.setIngredient('s', Material.SUGAR_CANE);
-		Bukkit.addRecipe(slimeball);
+		Bukkit.addRecipe(slimeball);*/
 		
 		ShapedRecipe enderportal = new ShapedRecipe(main.key("enderportal"), new ItemStack(Material.END_PORTAL_FRAME)).shape("p p", "s s", "sss");
 		enderportal.setIngredient('p', Material.ENDER_PEARL);
@@ -125,18 +130,18 @@ public class recipes {
 		craftstickrecp.addIngredient(Material.CRAFTING_TABLE);
 		craftstickrecp.addIngredient(Material.STICK);
 		Bukkit.addRecipe(craftstickrecp);
-		
-		/*ShapelessRecipe sleepbag = new ShapelessRecipe(main.key("sleepbag"), vars.sleepbag);
+
+		ShapelessRecipe sleepbag = new ShapelessRecipe(main.key("sleepbag"), vars.sleepbag);
 		sleepbag.addIngredient(Material.WHITE_CARPET);
 		sleepbag.addIngredient(Material.WHITE_WOOL);
-		Bukkit.addRecipe(sleepbag);*/
+		Bukkit.addRecipe(sleepbag);
 		
-		/*ShapedRecipe MoltenPickRecp = new ShapedRecipe(main.key("MoltenPick"), vars.MoltenPickaxe).shape("dnd", " m ", " s ");
+		ShapedRecipe MoltenPickRecp = new ShapedRecipe(main.key("MoltenPick"), vars.MoltenPickaxe).shape("dnd", " m ", " s ");
 		MoltenPickRecp.setIngredient('d', Material.DIAMOND);
 		MoltenPickRecp.setIngredient('n', Material.EMERALD);
 		MoltenPickRecp.setIngredient('s', Material.STICK);
 		MoltenPickRecp.setIngredient('m', Material.MAGMA_CREAM);
-		Bukkit.addRecipe(MoltenPickRecp);*/
+		Bukkit.addRecipe(MoltenPickRecp);
 		
 		/*ShapedRecipe StoneCarveRecp = new ShapedRecipe(main.key("Stonecarver"), vars.StoneCarver).shape(" d ", " s ", "   ");
 		StoneCarveRecp.setIngredient('d', Material.DIAMOND);
@@ -149,12 +154,12 @@ public class recipes {
 		InstElevRecp.setIngredient('o', Material.STICK);
 		Bukkit.addRecipe(InstElevRecp);*/
 		
-		/*ShapedRecipe TeleRecp = new ShapedRecipe(main.key("Tele"), vars.Teleporter).shape(" b ", "wdw", " s ");
+		ShapedRecipe TeleRecp = new ShapedRecipe(main.key("Tele"), vars.Teleporter).shape(" b ", "wdw", " s ");
 		TeleRecp.setIngredient('b', Material.IRON_BARS);
 		TeleRecp.setIngredient('w', Material.OAK_PLANKS);
 		TeleRecp.setIngredient('s', Material.STICK);
 		TeleRecp.setIngredient('d', Material.DIAMOND);
-		Bukkit.addRecipe(TeleRecp);*/
+		Bukkit.addRecipe(TeleRecp);
 		
 		/*ShapedRecipe MagRecp = new ShapedRecipe(main.key("Mag"), vars.Magnet).shape("sps", " i ", " s ");
 		MagRecp.setIngredient('i', Material.IRON_INGOT);

@@ -3,10 +3,7 @@ package com.glisco03.Puncraft.Timers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -45,7 +42,7 @@ public class Timer1L implements Runnable{
 	public void run() {
 		for(Player p : Bukkit.getOnlinePlayers()) {	
 			boostPlatforms(p);
-			//flyBoots(p);
+			flyBoots(p);
 			p.removeMetadata("delay1", main.pcplugin);
 		}
 		
@@ -85,10 +82,10 @@ public class Timer1L implements Runnable{
 		}
 	}
 
-	/*public void flyBoots(Player p){
+	public void flyBoots(Player p){
 		if(p.getInventory().getBoots() != null) {
 			if(p.getInventory().getBoots().getItemMeta().hasDisplayName()) {
-				if(p.getInventory().getBoots().getItemMeta().getDisplayName().equals("§6§lFLYBOOTS")) {
+				if(p.getInventory().getBoots().getItemMeta().getDisplayName().equals("§6§lFLYBOOTS") && p.getAllowFlight() == false) {
 					p.setAllowFlight(true);
 				}
 			} else if(!p.getGameMode().equals(GameMode.CREATIVE) && !p.getGameMode().equals(GameMode.SPECTATOR)){
@@ -99,7 +96,7 @@ public class Timer1L implements Runnable{
 				p.setAllowFlight(false);
 			}
 		}
-	}*/
+	}
 
 	public void freezedInventory() {
 		if(vars.toFreeze.size()>0) {

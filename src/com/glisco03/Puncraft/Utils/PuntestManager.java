@@ -109,6 +109,7 @@ public class PuntestManager {
 		config.set(uuid, config.getInt(uuid) + 1);
 		hasVoted.add(uid);
 		configuration.set("hasVoted", hasVoted);
+		config.set("votesSubmitted", true);
 		save(v, config);
 		save(f, configuration);
 	}
@@ -123,6 +124,10 @@ public class PuntestManager {
 
 	public static String getUUIDByPunID(String punid) {
 		return config.getString(punid);
+	}
+
+	public static Boolean votesSubmitted(){
+		return config.getBoolean("votesSubmitted");
 	}
 
 	public static HashMap<String, Integer> getStateMap() {

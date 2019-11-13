@@ -19,6 +19,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -113,7 +114,7 @@ public class EventListener implements Listener{
 		}
 	}
 	
-	/*@EventHandler
+	@EventHandler
 	public void onBootsCrafted(CraftItemEvent e) {
 		if(e.getInventory().getItem(4) != null && e.getInventory().getItem(6) != null && e.getInventory().getItem(7) != null && e.getInventory().getItem(9) != null) {
 			if(e.getInventory().getItem(4).getType().equals(Material.GOLD_BLOCK) && e.getInventory().getItem(6).getType().equals(Material.GOLD_BLOCK) && e.getInventory().getItem(7).getType().equals(Material.GOLD_BLOCK) && e.getInventory().getItem(9).getType().equals(Material.GOLD_BLOCK)) {
@@ -124,7 +125,7 @@ public class EventListener implements Listener{
 				}
 			}
 		}
-	}*/
+	}
 
 	/*@EventHandler
 	public void onFarmlandCreated(PlayerInteractEvent e) {
