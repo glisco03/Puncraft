@@ -1,7 +1,9 @@
 package com.glisco03.Puncraft.main;
 
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.glisco03.Puncraft.Timers.Timer1L;
@@ -20,22 +22,32 @@ public class main extends JavaPlugin{
 	
 	public static JavaPlugin pcplugin;
 
+	public static Economy eco;
+
 	@Override
 	public void onEnable() {
 		new vars();
 		pcplugin = this;
+
 		Bukkit.getScheduler().runTaskTimer(this, new Timer1L(), 1L, 1L);
 		Bukkit.getScheduler().runTaskTimer(this, new Timer2400L(), 2400L, 2400L);
+
 		new EventListener(this);
 		new recipes();
 		new CombinerManager();
 		new Infinity();
+
+		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+		if (economyProvider != null) {
+			eco = economyProvider.getProvider();
+		}
+
 		getCommand("umfrage").setExecutor(new command_umfrage());
 		getCommand("stickwand").setExecutor(new command_stickwand());
 		getCommand("freeze").setExecutor(new command_freeze());
 		getCommand("combiner").setExecutor(new command_combiner());
 		getCommand("getitem").setExecutor(new command_getitem());
-		getCommand("puntest").setExecutor(new command_puntest());
+		getCommand("puntest").setExecutor(new command_puntest(eco));
 		//getCommand("infinity").setExecutor(new command_infinity());
 		//getCommand("setinfi").setExecutor(new command_setinfi());
 	}
