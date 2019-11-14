@@ -1,7 +1,7 @@
 package com.glisco03.Puncraft.Utils;
 
-import java.util.ArrayList;
-
+import com.earth2me.essentials.Essentials;
+import com.glisco03.Puncraft.main.vars;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,16 +9,13 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
+import org.bukkit.block.Sign;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDispenseEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -26,23 +23,29 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.glisco03.Puncraft.main.vars;;
+import java.util.ArrayList;
 
-public class EventListener implements Listener{
-	
-	Fireball fb;
-	
-	Location loc;
-	
-	Dispenser dis;
-	
-	Inventory inv = Bukkit.createInventory(null, 9, "haha");
+;
 
-	public EventListener(JavaPlugin plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
+public class EventListener implements Listener {
+
+    Fireball fb;
+
+    Location loc;
+
+    Dispenser dis;
+
+    Inventory inv = Bukkit.createInventory(null, 9, "haha");
+
+    Essentials E;
+
+    public EventListener(JavaPlugin plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        E = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+    }
 	
 	/*@EventHandler
 	public void onQuiz(AsyncPlayerChatEvent e) {
@@ -102,30 +105,30 @@ public class EventListener implements Listener{
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "bp user " + e.getPlayer().getName() + " group set Quiz");
 		}
 	}*/
-	
-	@EventHandler
-	public void onStickWand(PlayerInteractEvent e) {
-		if(e.getPlayer().getInventory().getItemInMainHand().equals(vars.StickWand) && e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-			Player player = e.getPlayer();
-			Location playerloc = e.getPlayer().getLocation();
-			Location fbLocation = playerloc.add(playerloc.getDirection().normalize().multiply(2).toLocation(player.getWorld(), playerloc.getYaw(),playerloc.getPitch())).add(0, 1D, 0);
-			final Fireball f = player.getWorld().spawn(fbLocation, Fireball.class);
-			f.setYield(5f);
-		}
-	}
-	
-	@EventHandler
-	public void onBootsCrafted(CraftItemEvent e) {
-		if(e.getInventory().getItem(4) != null && e.getInventory().getItem(6) != null && e.getInventory().getItem(7) != null && e.getInventory().getItem(9) != null) {
-			if(e.getInventory().getItem(4).getType().equals(Material.GOLD_BLOCK) && e.getInventory().getItem(6).getType().equals(Material.GOLD_BLOCK) && e.getInventory().getItem(7).getType().equals(Material.GOLD_BLOCK) && e.getInventory().getItem(9).getType().equals(Material.GOLD_BLOCK)) {
-				if(e.getInventory().getItem(4).equals(vars.heavengold) && e.getInventory().getItem(6).equals(vars.heavengold) && e.getInventory().getItem(7).equals(vars.heavengold) && e.getInventory().getItem(9).equals(vars.heavengold)) {
-				} else {
-					e.getInventory().clear();
-					e.setCancelled(true);
-				}
-			}
-		}
-	}
+
+    @EventHandler
+    public void onStickWand(PlayerInteractEvent e) {
+        if (e.getPlayer().getInventory().getItemInMainHand().equals(vars.StickWand) && e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+            Player player = e.getPlayer();
+            Location playerloc = e.getPlayer().getLocation();
+            Location fbLocation = playerloc.add(playerloc.getDirection().normalize().multiply(2).toLocation(player.getWorld(), playerloc.getYaw(), playerloc.getPitch())).add(0, 1D, 0);
+            final Fireball f = player.getWorld().spawn(fbLocation, Fireball.class);
+            f.setYield(5f);
+        }
+    }
+
+    @EventHandler
+    public void onBootsCrafted(CraftItemEvent e) {
+        if (e.getInventory().getItem(4) != null && e.getInventory().getItem(6) != null && e.getInventory().getItem(7) != null && e.getInventory().getItem(9) != null) {
+            if (e.getInventory().getItem(4).getType().equals(Material.GOLD_BLOCK) && e.getInventory().getItem(6).getType().equals(Material.GOLD_BLOCK) && e.getInventory().getItem(7).getType().equals(Material.GOLD_BLOCK) && e.getInventory().getItem(9).getType().equals(Material.GOLD_BLOCK)) {
+                if (e.getInventory().getItem(4).equals(vars.heavengold) && e.getInventory().getItem(6).equals(vars.heavengold) && e.getInventory().getItem(7).equals(vars.heavengold) && e.getInventory().getItem(9).equals(vars.heavengold)) {
+                } else {
+                    e.getInventory().clear();
+                    e.setCancelled(true);
+                }
+            }
+        }
+    }
 
 	/*@EventHandler
 	public void onFarmlandCreated(PlayerInteractEvent e) {
@@ -176,136 +179,136 @@ public class EventListener implements Listener{
 			
 	}*/
 
-	@EventHandler
-	public void onFreezedPlayerMove(PlayerMoveEvent e) {
-		if(vars.toFreeze.contains(e.getPlayer())) {	
-			e.setCancelled(true);
-		}
-	}
-	
-	@EventHandler
-	public void onFreezedPlayerBreak(BlockBreakEvent e) {
-		if(vars.toFreeze.contains(e.getPlayer())) {	
-			e.setCancelled(true);
-		} else if(vars.x.contains(e.getBlock().getX()) && vars.y.contains(e.getBlock().getY()) && vars.z.contains(e.getBlock().getZ())) {
-			vars.x.remove(vars.x.indexOf(e.getBlock().getX()));
-			vars.y.remove(vars.y.indexOf(e.getBlock().getY()));
-			vars.z.remove(vars.z.indexOf(e.getBlock().getZ()));
-		}
-	}
-	
-	@EventHandler
-	public void onFreezedPlayerBuild(BlockPlaceEvent e) {
-		if(vars.toFreeze.contains(e.getPlayer())) {	
-			e.setCancelled(true);
-		} else if(e.getBlock().getType().equals(Material.DISPENSER)) {
-			dis = (Dispenser) e.getBlock().getState();
-			if(dis.getCustomName() != null) {
-				if(dis.getCustomName().equals(vars.BlockBreaker.getItemMeta().getDisplayName())) {
-					WorldManager.registerBreaker(e.getBlock());
-				}
-			}
-		}
-	}
-	
-	@SuppressWarnings("incomplete-switch")
-	@EventHandler
-	public void onBlockBreaker(BlockRedstoneEvent e) {
-		for(Block b : SurroundingBlocks(e.getBlock())) {
-			if(b.getType().equals(Material.DISPENSER)) {
-				if(vars.x.contains(b.getX()) && vars.y.contains(b.getY()) && vars.z.contains(b.getZ()) && b.isBlockPowered() || vars.x.contains(b.getX()) && vars.y.contains(b.getY()) && vars.z.contains(b.getZ()) && b.isBlockIndirectlyPowered()) {
-					@SuppressWarnings("deprecation")
-					BlockFace targetFace = ((org.bukkit.material.Dispenser) b.getState().getData()).getFacing();
-					dis = (Dispenser) b.getState();
-					loc = b.getLocation();
-					switch(targetFace) {
-					case UP:
-						loc.add(0, 1, 0);
-						if(e.getBlock().getType() != Material.BEDROCK) {
-							dis.getInventory().addItem(new ItemStack(loc.getBlock().getType())); 
-							loc.getBlock().setType(Material.AIR);
-						}
-						break;
-					case DOWN:
-						loc.add(0, -1, 0);
-						if(e.getBlock().getType() != Material.BEDROCK) {
-							dis.getInventory().addItem(new ItemStack(loc.getBlock().getType())); 
-							loc.getBlock().setType(Material.AIR);
-						}
-						break;
-					case NORTH:
-						loc.add(0, 0, -1);
-						if(e.getBlock().getType() != Material.BEDROCK) {
-							dis.getInventory().addItem(new ItemStack(loc.getBlock().getType())); 
-							loc.getBlock().setType(Material.AIR);
-						}
-						break;
-					case EAST:
-						loc.add(1, 0, 0);
-						if(e.getBlock().getType() != Material.BEDROCK) {
-							dis.getInventory().addItem(new ItemStack(loc.getBlock().getType())); 
-							loc.getBlock().setType(Material.AIR);
-						}
-						break;
-					case WEST:
-						loc.add(-1, 0, 0);
-						if(e.getBlock().getType() != Material.BEDROCK) {
-							dis.getInventory().addItem(new ItemStack(loc.getBlock().getType())); 
-							loc.getBlock().setType(Material.AIR);
-						}
-						break;
-					case SOUTH:
-						loc.add(0, 0, 1);
-						if(e.getBlock().getType() != Material.BEDROCK) {
-							dis.getInventory().addItem(new ItemStack(loc.getBlock().getType())); 
-							loc.getBlock().setType(Material.AIR);
-						}
-						break;
-					}
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onBreakerDrop(BlockDispenseEvent e) {
-		if(vars.x.contains(e.getBlock().getX()) && vars.y.contains(e.getBlock().getY()) && vars.z.contains(e.getBlock().getZ())) {
-			e.setCancelled(true);
-		}
-	}
-	
-	@EventHandler
-	public void onCombinerControls(InventoryClickEvent e) {
-		if(CombinerManager.getPlayers().contains(e.getWhoClicked())) {
-			if(e.getCurrentItem() != null) {		
-				if(e.getCurrentItem().equals(CombinerManager.barrier)) {
-					e.setCancelled(true);
-				} else if(e.getCurrentItem().equals(CombinerManager.wool)) {
-					CombinerManager.startCombining((Player) e.getWhoClicked());
-					e.setCancelled(true);
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onCombinerExit(InventoryCloseEvent e) {
-		if(CombinerManager.getPlayers().contains(e.getPlayer())) {
-			e.getPlayer().getInventory().addItem(e.getPlayer().getOpenInventory().getItem(1));
-			e.getPlayer().getInventory().addItem(e.getPlayer().getOpenInventory().getItem(3));
-			e.getPlayer().getInventory().addItem(e.getPlayer().getOpenInventory().getItem(7));
-			CombinerManager.combinerClosed((Player) e.getPlayer());			
-		}
-	}
+    @EventHandler
+    public void onFreezedPlayerMove(PlayerMoveEvent e) {
+        if (vars.toFreeze.contains(e.getPlayer())) {
+            e.setCancelled(true);
+        }
+    }
 
-	@EventHandler
-	public void onCraftStick(PlayerInteractEvent e) {
-		if(e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-			if(e.getPlayer().getInventory().getItemInMainHand().equals(vars.CraftStick)) {
-				e.getPlayer().openWorkbench(e.getPlayer().getLocation(), true);				
-			}
-		}
-	}
+    @EventHandler
+    public void onFreezedPlayerBreak(BlockBreakEvent e) {
+        if (vars.toFreeze.contains(e.getPlayer())) {
+            e.setCancelled(true);
+        } else if (vars.x.contains(e.getBlock().getX()) && vars.y.contains(e.getBlock().getY()) && vars.z.contains(e.getBlock().getZ())) {
+            vars.x.remove(vars.x.indexOf(e.getBlock().getX()));
+            vars.y.remove(vars.y.indexOf(e.getBlock().getY()));
+            vars.z.remove(vars.z.indexOf(e.getBlock().getZ()));
+        }
+    }
+
+    @EventHandler
+    public void onFreezedPlayerBuild(BlockPlaceEvent e) {
+        if (vars.toFreeze.contains(e.getPlayer())) {
+            e.setCancelled(true);
+        } else if (e.getBlock().getType().equals(Material.DISPENSER)) {
+            dis = (Dispenser) e.getBlock().getState();
+            if (dis.getCustomName() != null) {
+                if (dis.getCustomName().equals(vars.BlockBreaker.getItemMeta().getDisplayName())) {
+                    WorldManager.registerBreaker(e.getBlock());
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("incomplete-switch")
+    @EventHandler
+    public void onBlockBreaker(BlockRedstoneEvent e) {
+        for (Block b : SurroundingBlocks(e.getBlock())) {
+            if (b.getType().equals(Material.DISPENSER)) {
+                if (vars.x.contains(b.getX()) && vars.y.contains(b.getY()) && vars.z.contains(b.getZ()) && b.isBlockPowered() || vars.x.contains(b.getX()) && vars.y.contains(b.getY()) && vars.z.contains(b.getZ()) && b.isBlockIndirectlyPowered()) {
+                    @SuppressWarnings("deprecation")
+                    BlockFace targetFace = ((org.bukkit.material.Dispenser) b.getState().getData()).getFacing();
+                    dis = (Dispenser) b.getState();
+                    loc = b.getLocation();
+                    switch (targetFace) {
+                        case UP:
+                            loc.add(0, 1, 0);
+                            if (e.getBlock().getType() != Material.BEDROCK) {
+                                dis.getInventory().addItem(new ItemStack(loc.getBlock().getType()));
+                                loc.getBlock().setType(Material.AIR);
+                            }
+                            break;
+                        case DOWN:
+                            loc.add(0, -1, 0);
+                            if (e.getBlock().getType() != Material.BEDROCK) {
+                                dis.getInventory().addItem(new ItemStack(loc.getBlock().getType()));
+                                loc.getBlock().setType(Material.AIR);
+                            }
+                            break;
+                        case NORTH:
+                            loc.add(0, 0, -1);
+                            if (e.getBlock().getType() != Material.BEDROCK) {
+                                dis.getInventory().addItem(new ItemStack(loc.getBlock().getType()));
+                                loc.getBlock().setType(Material.AIR);
+                            }
+                            break;
+                        case EAST:
+                            loc.add(1, 0, 0);
+                            if (e.getBlock().getType() != Material.BEDROCK) {
+                                dis.getInventory().addItem(new ItemStack(loc.getBlock().getType()));
+                                loc.getBlock().setType(Material.AIR);
+                            }
+                            break;
+                        case WEST:
+                            loc.add(-1, 0, 0);
+                            if (e.getBlock().getType() != Material.BEDROCK) {
+                                dis.getInventory().addItem(new ItemStack(loc.getBlock().getType()));
+                                loc.getBlock().setType(Material.AIR);
+                            }
+                            break;
+                        case SOUTH:
+                            loc.add(0, 0, 1);
+                            if (e.getBlock().getType() != Material.BEDROCK) {
+                                dis.getInventory().addItem(new ItemStack(loc.getBlock().getType()));
+                                loc.getBlock().setType(Material.AIR);
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBreakerDrop(BlockDispenseEvent e) {
+        if (vars.x.contains(e.getBlock().getX()) && vars.y.contains(e.getBlock().getY()) && vars.z.contains(e.getBlock().getZ())) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onCombinerControls(InventoryClickEvent e) {
+        if (CombinerManager.getPlayers().contains(e.getWhoClicked())) {
+            if (e.getCurrentItem() != null) {
+                if (e.getCurrentItem().equals(CombinerManager.barrier)) {
+                    e.setCancelled(true);
+                } else if (e.getCurrentItem().equals(CombinerManager.wool)) {
+                    CombinerManager.startCombining((Player) e.getWhoClicked());
+                    e.setCancelled(true);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onCombinerExit(InventoryCloseEvent e) {
+        if (CombinerManager.getPlayers().contains(e.getPlayer())) {
+            e.getPlayer().getInventory().addItem(e.getPlayer().getOpenInventory().getItem(1));
+            e.getPlayer().getInventory().addItem(e.getPlayer().getOpenInventory().getItem(3));
+            e.getPlayer().getInventory().addItem(e.getPlayer().getOpenInventory().getItem(7));
+            CombinerManager.combinerClosed((Player) e.getPlayer());
+        }
+    }
+
+    @EventHandler
+    public void onCraftStick(PlayerInteractEvent e) {
+        if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (e.getPlayer().getInventory().getItemInMainHand().equals(vars.CraftStick)) {
+                e.getPlayer().openWorkbench(e.getPlayer().getLocation(), true);
+            }
+        }
+    }
 
 	/*@EventHandler
 	public void onCreeper(ExplosionPrimeEvent e) {
@@ -337,33 +340,84 @@ public class EventListener implements Listener{
 		}
 	}*/
 
-	@EventHandler
-	public void onOreBreak(BlockBreakEvent e) {
-		 
-		int amount = 1;
-		
-		if(e.getPlayer().getInventory().getItem(e.getPlayer().getInventory().getHeldItemSlot()) != null) {
-			if(e.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) {
-				if(e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§6§lMolten Pickaxe")) {
-					if(vars.meltores.contains(e.getBlock().getType())) {
-						e.setDropItems(false);
-						
-						if(e.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
-							amount = amount + e.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
-						}
-						
-						ItemStack ironIngot = new ItemStack(Material.IRON_INGOT, amount);
-						ItemStack goldIngot = new ItemStack(Material.GOLD_INGOT, amount);
-						
-						if(e.getBlock().getType().equals(vars.meltores.get(0))) {e.getPlayer().getWorld().dropItemNaturally(e.getBlock().getLocation(), ironIngot);}
-						if(e.getBlock().getType().equals(vars.meltores.get(1))) {e.getPlayer().getWorld().dropItemNaturally(e.getBlock().getLocation(), goldIngot);}
-						
-						e.getBlock().getLocation().getWorld().spawnParticle(Particle.FLAME, e.getBlock().getLocation(), 25);
-					 }
-				 }
-			 } 
-		 }
-	 }
+    @EventHandler
+    public void onOreBreak(BlockBreakEvent e) {
+
+        int amount = 1;
+
+        if (e.getPlayer().getInventory().getItem(e.getPlayer().getInventory().getHeldItemSlot()) != null) {
+            if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) {
+                if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§6§lMolten Pickaxe")) {
+                    if (vars.meltores.contains(e.getBlock().getType())) {
+                        e.setDropItems(false);
+
+                        if (e.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
+                            amount = amount + e.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
+                        }
+
+                        ItemStack ironIngot = new ItemStack(Material.IRON_INGOT, amount);
+                        ItemStack goldIngot = new ItemStack(Material.GOLD_INGOT, amount);
+
+                        if (e.getBlock().getType().equals(vars.meltores.get(0))) {
+                            e.getPlayer().getWorld().dropItemNaturally(e.getBlock().getLocation(), ironIngot);
+                        }
+                        if (e.getBlock().getType().equals(vars.meltores.get(1))) {
+                            e.getPlayer().getWorld().dropItemNaturally(e.getBlock().getLocation(), goldIngot);
+                        }
+
+                        e.getBlock().getLocation().getWorld().spawnParticle(Particle.FLAME, e.getBlock().getLocation(), 25);
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onHeadBuy(PlayerInteractEvent e) {
+        if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (e.getClickedBlock().getType() == Material.JUNGLE_SIGN) {
+                Sign s = (Sign) e.getClickedBlock().getState();
+                if (s.getLine(2).equalsIgnoreCase("Player_Head")) {
+                    Boolean found = false;
+                    for (ItemStack i : e.getPlayer().getInventory().getContents()) {
+                        try {
+                            if (i.getType().equals(Material.PLAYER_HEAD)) {
+                                if (i.getItemMeta().hasDisplayName()) {
+                                    if (i.getItemMeta().getDisplayName().equals("Credit") && i.getAmount() != 64 && found == false) {
+                                        i.setAmount(i.getAmount() + 1);
+                                        found = true;
+                                        for (ItemStack it : e.getPlayer().getInventory().getContents()) {
+                                            if (it.getType().equals(Material.PLAYER_HEAD)) {
+                                                SkullMeta n = (SkullMeta) it.getItemMeta();
+                                                if (!n.hasOwner()) {
+                                                    it.setAmount(0);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (Exception ex) {
+                        }
+                    }
+                    for (ItemStack i : e.getPlayer().getInventory().getContents()) {
+                        try {
+                            if (i.getType().equals(Material.PLAYER_HEAD)) {
+                                SkullMeta n = (SkullMeta) i.getItemMeta();
+                                if (!n.hasOwner()) {
+                                    SkullMeta m = (SkullMeta) i.getItemMeta();
+                                    m.setDisplayName("Credit");
+                                    m.setOwningPlayer(Bukkit.getOfflinePlayer("Twinkiebot"));
+                                    i.setItemMeta(m);
+                                }
+                            }
+                        } catch (Exception ex) {
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 	/*@SuppressWarnings({ "incomplete-switch", "deprecation" })
 	@EventHandler
@@ -395,15 +449,16 @@ public class EventListener implements Listener{
 		}
 	}*/
 
-	public ArrayList<Block> SurroundingBlocks(Block block){
+    public ArrayList<Block> SurroundingBlocks(Block block) {
         ArrayList<Block> Blocks = new ArrayList<Block>();
-        for (BlockFace face : BlockFace.values()){
-        if (face == BlockFace.UP){
-        Block above = block.getRelative(BlockFace.UP);
-        Block above2 = above.getRelative(BlockFace.UP);
-        Blocks.add(above);
-        Blocks.add(above2);}
-        Blocks.add(block.getRelative(face));
+        for (BlockFace face : BlockFace.values()) {
+            if (face == BlockFace.UP) {
+                Block above = block.getRelative(BlockFace.UP);
+                Block above2 = above.getRelative(BlockFace.UP);
+                Blocks.add(above);
+                Blocks.add(above2);
+            }
+            Blocks.add(block.getRelative(face));
         }
         return Blocks;
     }

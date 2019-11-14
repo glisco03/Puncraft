@@ -18,5 +18,6 @@
     <orderEntry type="library" name="Spigot-1.14.2-df0eb25-20190608-1028" level="project" />
     <orderEntry type="library" name="Spigot-API-1.14.2-df0eb25-20190608-10281" level="project" />
     <orderEntry type="library" name="Vault" level="project" />
+    <orderEntry type="library" name="EssentialsX-2.17.1.0" level="project" />
   </component>
 </module>
