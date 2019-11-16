@@ -2,6 +2,7 @@ package com.glisco03.Puncraft.Utils;
 
 import com.earth2me.essentials.Essentials;
 import com.glisco03.Puncraft.main.vars;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,15 +17,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
-import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.entity.EntityTeleportEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 
@@ -42,9 +44,12 @@ public class EventListener implements Listener {
 
     Essentials E;
 
-    public EventListener(JavaPlugin plugin) {
+    Economy eco;
+
+    public EventListener(JavaPlugin plugin, Economy e) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         E = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+        eco = e;
     }
 	
 	/*@EventHandler
@@ -310,6 +315,22 @@ public class EventListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onHelmet(InventoryClickEvent e) {
+        if(e.getSlotType() == InventoryType.SlotType.ARMOR && e.getCurrentItem().getItemMeta().hasDisplayName()){
+            if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§8Miners Helmet")){
+                e.getWhoClicked().removePotionEffect(PotionEffectType.NIGHT_VISION);
+                e.getWhoClicked().removePotionEffect(PotionEffectType.FAST_DIGGING);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onTeleport(EntityTeleportEvent e) {
+        e.getFrom().getWorld().spawnParticle(Particle.CRIT_MAGIC, e.getFrom(), 50);
+        e.getTo().getWorld().spawnParticle(Particle.CRIT_MAGIC, e.getFrom(), 50);
+    }
+
 	/*@EventHandler
 	public void onCreeper(ExplosionPrimeEvent e) {
 		if(e.getEntityType() == EntityType.CREEPER) {
@@ -382,15 +403,19 @@ public class EventListener implements Listener {
                     for (ItemStack i : e.getPlayer().getInventory().getContents()) {
                         try {
                             if (i.getType().equals(Material.PLAYER_HEAD)) {
-                                if (i.getItemMeta().hasDisplayName()) {
-                                    if (i.getItemMeta().getDisplayName().equals("Credit") && i.getAmount() != 64 && found == false) {
-                                        i.setAmount(i.getAmount() + 1);
+                                if (!i.getItemMeta().hasDisplayName()) {
+                                    ItemMeta m = i.getItemMeta();
+                                    m.setDisplayName("§6Credit");
+                                    i.setItemMeta(m);
+                                } else {
+                                    if (i.getItemMeta().getDisplayName().equals("§6Credit") && i.getAmount() != 64 && found == false) {
                                         found = true;
                                         for (ItemStack it : e.getPlayer().getInventory().getContents()) {
                                             if (it.getType().equals(Material.PLAYER_HEAD)) {
-                                                SkullMeta n = (SkullMeta) it.getItemMeta();
-                                                if (!n.hasOwner()) {
+                                                ItemMeta n = it.getItemMeta();
+                                                if (!n.hasDisplayName()) {
                                                     it.setAmount(0);
+                                                    i.setAmount(i.getAmount() + 1);
                                                 }
                                             }
                                         }
@@ -400,54 +425,10 @@ public class EventListener implements Listener {
                         } catch (Exception ex) {
                         }
                     }
-                    for (ItemStack i : e.getPlayer().getInventory().getContents()) {
-                        try {
-                            if (i.getType().equals(Material.PLAYER_HEAD)) {
-                                SkullMeta n = (SkullMeta) i.getItemMeta();
-                                if (!n.hasOwner()) {
-                                    SkullMeta m = (SkullMeta) i.getItemMeta();
-                                    m.setDisplayName("Credit");
-                                    m.setOwningPlayer(Bukkit.getOfflinePlayer("Twinkiebot"));
-                                    i.setItemMeta(m);
-                                }
-                            }
-                        } catch (Exception ex) {
-                        }
-                    }
                 }
             }
         }
     }
-
-	/*@SuppressWarnings({ "incomplete-switch", "deprecation" })
-	@EventHandler
-	public void onStoneCarver(PlayerInteractEvent e) {
-		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-			if(e.getPlayer().getInventory().getItemInMainHand().equals(vars.StoneCarver) && !e.getPlayer().hasMetadata("delay1")) {
-				switch(e.getClickedBlock().getType()) {
-				case STONE:
-					e.getClickedBlock().setType(Material.DOUBLE_STEP);
-					e.getPlayer().setMetadata("delay1", new FixedMetadataValue(main.fplugin, 0));
-					break;
-				case DOUBLE_STEP:
-					if(e.getClickedBlock().getData() == (byte) 8) {
-						e.getClickedBlock().setType(Material.STONE);
-						e.getPlayer().setMetadata("delay1", new FixedMetadataValue(main.fplugin, 0));
-						break;
-					} else {
-						e.getClickedBlock().setType(Material.SMOOTH_BRICK);
-						e.getPlayer().setMetadata("delay1", new FixedMetadataValue(main.fplugin, 0));
-						break;
-					}
-				case SMOOTH_BRICK:
-					e.getClickedBlock().setType(Material.DOUBLE_STEP);
-					e.getClickedBlock().setData((byte) 8);
-					e.getPlayer().setMetadata("delay1", new FixedMetadataValue(main.fplugin, 0));
-					break;
-				}
-			}
-		}
-	}*/
 
     public ArrayList<Block> SurroundingBlocks(Block block) {
         ArrayList<Block> Blocks = new ArrayList<Block>();

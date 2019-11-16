@@ -21,7 +21,8 @@ public class command_getitem implements CommandExecutor{
 		
 		if(command.getName().equalsIgnoreCase("getitem")) {
 			if(p != null && p.hasPermission("Puncraft.debug")) {
-				p.getInventory().addItem(vars.StickWand);
+				p.getInventory().addItem(vars.featherboots);
+				return true;
 			} else {
 				sender.sendMessage("Players only!");
 				return true;

@@ -16,7 +16,7 @@ public class recipes {
 			p.sendMessage("Adding Recipes");
 		}*/
 		addTweakRecipes();
-		addFlyBootRecipes();
+		//addFlyBootRecipes();
 	}
 	
 	@SuppressWarnings("unused")
@@ -136,12 +136,12 @@ public class recipes {
 		sleepbag.addIngredient(Material.WHITE_WOOL);
 		Bukkit.addRecipe(sleepbag);
 		
-		ShapedRecipe MoltenPickRecp = new ShapedRecipe(main.key("MoltenPick"), vars.MoltenPickaxe).shape("dnd", " m ", " s ");
+		/*ShapedRecipe MoltenPickRecp = new ShapedRecipe(main.key("MoltenPick"), vars.MoltenPickaxe).shape("dnd", " m ", " s ");
 		MoltenPickRecp.setIngredient('d', Material.DIAMOND);
 		MoltenPickRecp.setIngredient('n', Material.EMERALD);
 		MoltenPickRecp.setIngredient('s', Material.STICK);
 		MoltenPickRecp.setIngredient('m', Material.MAGMA_CREAM);
-		Bukkit.addRecipe(MoltenPickRecp);
+		Bukkit.addRecipe(MoltenPickRecp);*/
 		
 		/*ShapedRecipe StoneCarveRecp = new ShapedRecipe(main.key("Stonecarver"), vars.StoneCarver).shape(" d ", " s ", "   ");
 		StoneCarveRecp.setIngredient('d', Material.DIAMOND);
@@ -154,12 +154,12 @@ public class recipes {
 		InstElevRecp.setIngredient('o', Material.STICK);
 		Bukkit.addRecipe(InstElevRecp);*/
 		
-		ShapedRecipe TeleRecp = new ShapedRecipe(main.key("Tele"), vars.Teleporter).shape(" b ", "wdw", " s ");
+		/*ShapedRecipe TeleRecp = new ShapedRecipe(main.key("Tele"), vars.Teleporter).shape(" b ", "wdw", " s ");
 		TeleRecp.setIngredient('b', Material.IRON_BARS);
 		TeleRecp.setIngredient('w', Material.OAK_PLANKS);
 		TeleRecp.setIngredient('s', Material.STICK);
 		TeleRecp.setIngredient('d', Material.DIAMOND);
-		Bukkit.addRecipe(TeleRecp);
+		Bukkit.addRecipe(TeleRecp);*/
 		
 		/*ShapedRecipe MagRecp = new ShapedRecipe(main.key("Mag"), vars.Magnet).shape("sps", " i ", " s ");
 		MagRecp.setIngredient('i', Material.IRON_INGOT);
@@ -173,12 +173,12 @@ public class recipes {
 		HoleRecp.setIngredient('e', Material.ENDER_EYE);
 		Bukkit.addRecipe(HoleRecp);*/
 		
-		ShapedRecipe ShellRecp = new ShapedRecipe(main.key("Shell"), vars.MShell).shape("dgd", "dhd", "c c");
+		/*ShapedRecipe ShellRecp = new ShapedRecipe(main.key("Shell"), vars.MShell).shape("dgd", "dhd", "c c");
 		ShellRecp.setIngredient('d', Material.DIAMOND);
 		ShellRecp.setIngredient('g', Material.GOLD_INGOT);
 		ShellRecp.setIngredient('h', Material.TURTLE_HELMET);
 		ShellRecp.setIngredient('c', Material.CONDUIT);
-		Bukkit.addRecipe(ShellRecp);
+		Bukkit.addRecipe(ShellRecp);*/
 		}
 
 	@SuppressWarnings("unused")

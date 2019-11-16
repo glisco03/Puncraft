@@ -32,7 +32,6 @@ public class main extends JavaPlugin{
 		Bukkit.getScheduler().runTaskTimer(this, new Timer1L(), 1L, 1L);
 		Bukkit.getScheduler().runTaskTimer(this, new Timer2400L(), 2400L, 2400L);
 
-		new EventListener(this);
 		new recipes();
 		new CombinerManager();
 		new Infinity();
@@ -41,6 +40,8 @@ public class main extends JavaPlugin{
 		if (economyProvider != null) {
 			eco = economyProvider.getProvider();
 		}
+
+		new EventListener(this, eco);
 
 		getCommand("umfrage").setExecutor(new command_umfrage());
 		getCommand("stickwand").setExecutor(new command_stickwand());

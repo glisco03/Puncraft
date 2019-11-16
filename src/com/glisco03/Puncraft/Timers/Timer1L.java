@@ -43,6 +43,9 @@ public class Timer1L implements Runnable{
 		for(Player p : Bukkit.getOnlinePlayers()) {	
 			boostPlatforms(p);
 			flyBoots(p);
+			minerHelmet(p);
+			featherBoots(p);
+			regenChest(p);
 			p.removeMetadata("delay1", main.pcplugin);
 		}
 		
@@ -94,6 +97,37 @@ public class Timer1L implements Runnable{
 		} else if(p.getInventory().getBoots() == null) {
 			if(!p.getGameMode().equals(GameMode.CREATIVE) && !p.getGameMode().equals(GameMode.SPECTATOR)){
 				p.setAllowFlight(false);
+			}
+		}
+	}
+
+	public void minerHelmet(Player p){
+		if(p.getInventory().getHelmet() != null) {
+			if(p.getInventory().getHelmet().getItemMeta().hasDisplayName()) {
+				if(p.getInventory().getHelmet().getItemMeta().getDisplayName().equals("§8Miners Helmet")) {
+					p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,400,0),true);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING,100,0), true);
+				}
+			}
+		}
+	}
+
+	public void featherBoots(Player p){
+		if(p.getInventory().getBoots() != null) {
+			if(p.getInventory().getBoots().getItemMeta().hasDisplayName()) {
+				if(p.getInventory().getBoots().getItemMeta().getDisplayName().equals("§b§lLong Fall Boots")) {
+					p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,60,0),true);
+				}
+			}
+		}
+	}
+
+	public void regenChest(Player p){
+		if(p.getInventory().getChestplate() != null) {
+			if(p.getInventory().getChestplate().getItemMeta().hasDisplayName()) {
+				if(p.getInventory().getChestplate().getItemMeta().getDisplayName().equals("§c§lRegeneration Chestplate")) {
+					p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,60,1),true);
+				}
 			}
 		}
 	}

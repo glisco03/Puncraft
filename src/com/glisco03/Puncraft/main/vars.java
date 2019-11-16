@@ -1,19 +1,20 @@
 package com.glisco03.Puncraft.main;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.w3c.dom.Attr;
 
 public class vars {
 	
@@ -42,6 +43,7 @@ public class vars {
 	
 	public static ItemStack StickWand = new ItemStack(Material.CARROT_ON_A_STICK);
 	public static ItemStack flyboots = new ItemStack(Material.GOLDEN_BOOTS);
+	public static ItemStack featherboots = new ItemStack(Material.IRON_BOOTS);
 	public static ItemStack heavengold = new ItemStack(Material.GOLD_BLOCK);	
 	public static ItemStack sleepbag = new ItemStack(Material.CARROT_ON_A_STICK);
 	public static ItemStack InstElev = new ItemStack(Material.CARROT_ON_A_STICK);
@@ -49,6 +51,8 @@ public class vars {
 	public static ItemStack Magnet = new ItemStack(Material.CARROT_ON_A_STICK);
 	public static ItemStack PHole = new ItemStack(Material.CARROT_ON_A_STICK);
 	public static ItemStack MShell = new ItemStack(Material.TURTLE_HELMET);
+	public static ItemStack MinerHelmet = new ItemStack(Material.IRON_HELMET);
+	public static ItemStack regenchest = new ItemStack(Material.DIAMOND_CHESTPLATE);
 	
 	public static ItemStack CraftStick = new ItemStack(Material.CARROT_ON_A_STICK);
 	
@@ -90,6 +94,19 @@ public class vars {
 		BootsMeta.setDisplayName("§6§lFLYBOOTS");
 		BootsMeta.setUnbreakable(true);
 		flyboots.setItemMeta(BootsMeta);
+
+		ItemMeta plateMeta = regenchest.getItemMeta();
+		plateMeta.setDisplayName("§c§lRegeneration Chestplate");
+		plateMeta.setUnbreakable(true);
+		regenchest.setItemMeta(plateMeta);
+		regenchest.setDurability((short) 1);
+
+		ItemMeta featherMeta = featherboots.getItemMeta();
+		AttributeModifier featherMod = new AttributeModifier(UUID.randomUUID(),"GENERIC_ARMOR", -3, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET);
+		featherMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, featherMod);
+		featherMeta.setDisplayName("§b§lLong Fall Boots");
+		featherMeta.setUnbreakable(true);
+		featherboots.setItemMeta(featherMeta);
 		
 		ItemMeta InstMeta = InstElev.getItemMeta();
 		InstMeta.setDisplayName("§6Instant Elevator");
@@ -136,6 +153,14 @@ public class vars {
 		sleepmeta.setUnbreakable(true);
 		sleepbag.setItemMeta(sleepmeta);
 		sleepbag.setDurability((short) 2);
+
+		ItemMeta minermeta = MinerHelmet.getItemMeta();
+		minermeta.setDisplayName("§8Miners Helmet");
+		minermeta.setUnbreakable(true);
+		AttributeModifier helmMod = new AttributeModifier(UUID.randomUUID(),"GENERIC_ARMOR", -6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+		minermeta.addAttributeModifier(Attribute.GENERIC_ARMOR, helmMod);
+		MinerHelmet.setItemMeta(minermeta);
+		MinerHelmet.setDurability((short) 1);
 		
 		MoltenPickaxe = ItemManager.getUnbreakableItem(Material.DIAMOND_PICKAXE);
 		ItemMeta moltenmeta = MoltenPickaxe.getItemMeta();
