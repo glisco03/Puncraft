@@ -26,7 +26,7 @@ commands:
     usage: /<command>
     description: Debug tool
   puntest:
-    usage: /<command> [start|stop|changestate|vote|submit|info]
+    usage: /<command> [start|stop|changestate|vote|submit|info|reloadleaderbaord]
     description: Puntest
 #  infinity:
 #    usage: /<command>

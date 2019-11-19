@@ -105,8 +105,8 @@ public class Timer1L implements Runnable{
 		if(p.getInventory().getHelmet() != null) {
 			if(p.getInventory().getHelmet().getItemMeta().hasDisplayName()) {
 				if(p.getInventory().getHelmet().getItemMeta().getDisplayName().equals("§8Miners Helmet")) {
-					p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,400,0),true);
-					p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING,100,0), true);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,19999980,0),false);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING,19999980,0), false);
 				}
 			}
 		}
@@ -115,8 +115,8 @@ public class Timer1L implements Runnable{
 	public void featherBoots(Player p){
 		if(p.getInventory().getBoots() != null) {
 			if(p.getInventory().getBoots().getItemMeta().hasDisplayName()) {
-				if(p.getInventory().getBoots().getItemMeta().getDisplayName().equals("§b§lLong Fall Boots")) {
-					p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,60,0),true);
+				if(p.getInventory().getBoots().getItemMeta().getDisplayName().equals("§b§lLong Fall Boots") && !p.isGliding()) {
+					p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,30,0),true);
 				}
 			}
 		}

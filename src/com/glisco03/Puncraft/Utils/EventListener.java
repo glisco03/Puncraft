@@ -12,15 +12,19 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.Sign;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -29,6 +33,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 ;
 
@@ -317,18 +322,33 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onHelmet(InventoryClickEvent e) {
-        if(e.getSlotType() == InventoryType.SlotType.ARMOR && e.getCurrentItem().getItemMeta().hasDisplayName()){
-            if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§8Miners Helmet")){
-                e.getWhoClicked().removePotionEffect(PotionEffectType.NIGHT_VISION);
-                e.getWhoClicked().removePotionEffect(PotionEffectType.FAST_DIGGING);
+        if(e.getSlotType() == InventoryType.SlotType.ARMOR && e.getCurrentItem().getItemMeta() != null){
+            if(e.getCurrentItem().getItemMeta().hasDisplayName()) {
+                if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§8Miners Helmet")) {
+                    e.getWhoClicked().removePotionEffect(PotionEffectType.NIGHT_VISION);
+                    e.getWhoClicked().removePotionEffect(PotionEffectType.FAST_DIGGING);
+                }
             }
         }
     }
 
     @EventHandler
-    public void onTeleport(EntityTeleportEvent e) {
-        e.getFrom().getWorld().spawnParticle(Particle.CRIT_MAGIC, e.getFrom(), 50);
-        e.getTo().getWorld().spawnParticle(Particle.CRIT_MAGIC, e.getFrom(), 50);
+    public void onTeleport(PlayerTeleportEvent e) {
+        e.getFrom().getWorld().spawnParticle(Particle.FLAME, e.getFrom(), 50, 0.5, 1, 0.5, 0.01);
+        e.getTo().getWorld().spawnParticle(Particle.FLAME, e.getTo(), 50, 0.5, 1,0.5, 0.01);
+        e.getPlayer().playSound(e.getTo(), "minecraft:pc.swoosh", 0.5f, 0.9f + new Random().nextFloat() * (1.6f - 0.9f));
+    }
+
+    @EventHandler
+    public void onFish(EntityDamageByEntityEvent e) {
+        if(e.getDamager().getType() == EntityType.PLAYER){
+            Player p = (Player) e.getDamager();
+            if(p.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()){
+                if(p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§5§lSlap 'o Fish")){
+                    p.getInventory().getItemInMainHand().setAmount(0);
+                }
+            }
+        }
     }
 
 	/*@EventHandler

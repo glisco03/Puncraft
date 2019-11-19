@@ -2,17 +2,15 @@ package com.glisco03.Puncraft.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class PuntestManager {
 
@@ -21,6 +19,9 @@ public class PuntestManager {
 
 	private static File v = new File("plugins/Puncraft", "votes.yml");
 	private static FileConfiguration config = YamlConfiguration.loadConfiguration(v);
+
+	private static File leaderboardfile = new File("plugins/Puncraft", "leaderboard.yml");
+	private static FileConfiguration leadconfig = YamlConfiguration.loadConfiguration(leaderboardfile);
 
 	private static void save(File file, FileConfiguration configuration) {
 		try {
@@ -158,7 +159,6 @@ public class PuntestManager {
 			places.set(reversePlaces.size() - i, uuid);
 			i++;
 		}
-		//System.out.println(places);
 		return places;
 	}
 	
@@ -166,8 +166,57 @@ public class PuntestManager {
 		return configuration.getStringList("hasVoted");
 	}
 
-	public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) 
-    { 
+	public static void calculateLeaderboard(List<String> places){
+		leadconfig = YamlConfiguration.loadConfiguration(leaderboardfile);
+		World w = Bukkit.getWorld("world");
+		Location l = new Location(w, 167.0, 122, 237.2);
+		WorldManager.spawnText(l, "§b---- §2Leaderboard §b----",  w);
+		Boolean set = false;
+			for(Integer n = 0; n<3; n++){
+				if(getVotes(places.get(0)) != 0 && getVotes(places.get(0)) >= leadconfig.getInt("votes" + n.toString())  && !set){
+					switch(n){
+						case 0:
+							leadconfig.set("2", leadconfig.get("1"));
+							leadconfig.set("1", leadconfig.get("0"));
+							leadconfig.set("votes2", leadconfig.get("votes1"));
+							leadconfig.set("votes1", leadconfig.get("votes0"));
+							break;
+						case 1:
+							leadconfig.set("2", leadconfig.get("1"));
+							leadconfig.set("votes2", leadconfig.get("votes1"));
+							break;
+					}
+					leadconfig.set(n.toString(), "§b" + getPun(places.get(0)) + "§2(" + Bukkit.getOfflinePlayer(UUID.fromString(places.get(0))).getName() + ")");
+					leadconfig.set("votes" + n.toString(), getVotes(places.get(0)));
+					save(leaderboardfile, leadconfig);
+					set = true;
+				}
+			}
+		for(Integer h = 0; h<3; h++){
+			if(leadconfig.get(h.toString()) != null){
+				WorldManager.spawnText(l.subtract(0, (0.3+(h*0.1)), 0), "§6" + (h+1) +  ". §a" + leadconfig.get(h.toString()),  w);
+			}
+		}
+	}
+
+	public static void redrawLeaderboard(){
+		Collection<Entity> j = Bukkit.getWorld("world").getNearbyEntities(new Location(Bukkit.getWorld("world"), 165, 118, 236), 2, 6, 2);
+		for(Entity e : j){
+			if(e.getType() == EntityType.ARMOR_STAND){
+				e.remove();
+			}
+		}
+		World w = Bukkit.getWorld("world");
+		Location l = new Location(w, 167.0, 122, 237.2);
+		WorldManager.spawnText(l, "§b---- §2Leaderboard §b----",  w);
+		for(Integer h = 0; h<3; h++){
+			if(leadconfig.get(h.toString()) != null){
+				WorldManager.spawnText(l.subtract(0, (0.3+(h*0.1)), 0), "§6" + (h+1) +  ". §a" + leadconfig.get(h.toString()),  w);
+			}
+		}
+	}
+
+	public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) {
         // Create a list from elements of HashMap 
         List<Map.Entry<String, Integer> > list = 
                new LinkedList<Map.Entry<String, Integer> >(hm.entrySet()); 

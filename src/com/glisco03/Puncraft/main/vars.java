@@ -53,6 +53,7 @@ public class vars {
 	public static ItemStack MShell = new ItemStack(Material.TURTLE_HELMET);
 	public static ItemStack MinerHelmet = new ItemStack(Material.IRON_HELMET);
 	public static ItemStack regenchest = new ItemStack(Material.DIAMOND_CHESTPLATE);
+	public static ItemStack fishslap = new ItemStack(Material.COD);
 	
 	public static ItemStack CraftStick = new ItemStack(Material.CARROT_ON_A_STICK);
 	
@@ -161,6 +162,13 @@ public class vars {
 		minermeta.addAttributeModifier(Attribute.GENERIC_ARMOR, helmMod);
 		MinerHelmet.setItemMeta(minermeta);
 		MinerHelmet.setDurability((short) 1);
+
+		ItemMeta fishmeta = fishslap.getItemMeta();
+		fishmeta.setDisplayName("§5§lSlap 'o Fish");
+		fishmeta.setUnbreakable(true);
+		AttributeModifier fishmod = new AttributeModifier(UUID.randomUUID(),"GENERIC_ATTACK_DAMAGE", +50, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
+		fishmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, fishmod);
+		fishslap.setItemMeta(fishmeta);
 		
 		MoltenPickaxe = ItemManager.getUnbreakableItem(Material.DIAMOND_PICKAXE);
 		ItemMeta moltenmeta = MoltenPickaxe.getItemMeta();

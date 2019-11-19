@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.glisco03.Puncraft.main.vars;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 
 public class WorldManager {
 	
@@ -62,5 +66,13 @@ public class WorldManager {
 		vars.configuration.set("yco", vars.y);
 		vars.configuration.set("zco", vars.z);
 		save(vars.f, vars.configuration);
+	}
+
+	public static void spawnText(Location l, String text, World w){
+		ArmorStand e = (ArmorStand) w.spawnEntity(l, EntityType.ARMOR_STAND);
+		e.setCustomName(text);
+		e.setCustomNameVisible(true);
+		e.setGravity(false);
+		e.setVisible(false);
 	}
 }
