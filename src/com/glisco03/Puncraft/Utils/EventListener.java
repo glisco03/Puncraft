@@ -334,9 +334,11 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onTeleport(PlayerTeleportEvent e) {
-        e.getFrom().getWorld().spawnParticle(Particle.FLAME, e.getFrom(), 50, 0.5, 1, 0.5, 0.01);
-        e.getTo().getWorld().spawnParticle(Particle.FLAME, e.getTo(), 50, 0.5, 1,0.5, 0.01);
-        e.getPlayer().playSound(e.getTo(), "minecraft:pc.swoosh", 0.5f, 0.9f + new Random().nextFloat() * (1.6f - 0.9f));
+        if(!E.getUser(e.getPlayer()).isAfk()){
+            e.getFrom().getWorld().spawnParticle(Particle.FLAME, e.getFrom(), 50, 0.5, 1, 0.5, 0.01);
+            e.getTo().getWorld().spawnParticle(Particle.FLAME, e.getTo(), 50, 0.5, 1,0.5, 0.01);
+            e.getPlayer().playSound(e.getTo(), "minecraft:pc.swoosh", 0.5f, 0.9f + new Random().nextFloat() * (1.6f - 0.9f));
+        }
     }
 
     @EventHandler
