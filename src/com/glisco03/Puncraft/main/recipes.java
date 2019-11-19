@@ -12,11 +12,7 @@ public class recipes {
 	public static ShapedRecipe flyrecp;
 	
 	public recipes() {
-		/*for(Player p:Bukkit.getOnlinePlayers()){
-			p.sendMessage("Adding Recipes");
-		}*/
 		addTweakRecipes();
-		//addFlyBootRecipes();
 	}
 	
 	@SuppressWarnings("unused")
@@ -91,7 +87,7 @@ public class recipes {
 		BlockBreaker.setIngredient('p', Material.DIAMOND_PICKAXE);
 		Bukkit.addRecipe(BlockBreaker);*/
 		
-		ShapedRecipe prismarine = new ShapedRecipe(main.key("prismarine"), new ItemStack(Material.PRISMARINE, 8)).shape("ccc", "cfc", "ccc");
+		/*ShapedRecipe prismarine = new ShapedRecipe(main.key("prismarine"), new ItemStack(Material.PRISMARINE, 8)).shape("ccc", "cfc", "ccc");
 		prismarine.setIngredient('c', Material.COBBLESTONE);
 		prismarine.setIngredient('f', Material.COD);
 		Bukkit.addRecipe(prismarine);
@@ -109,7 +105,7 @@ public class recipes {
 		ShapedRecipe sealantern = new ShapedRecipe(main.key("sealantern"), new ItemStack(Material.SEA_LANTERN, 8)).shape("ggg", "gfg", "ggg");
 		sealantern.setIngredient('g', Material.GLOWSTONE);
 		sealantern.setIngredient('f', Material.COD);
-		Bukkit.addRecipe(sealantern);
+		Bukkit.addRecipe(sealantern);*/
 		
 		/*ShapedRecipe lilypad = new ShapedRecipe(main.key("leaves"), new ItemStack(Material.LILY_PAD)).shape("lll", "lll", "lll");
 		lilypad.setIngredient('l', Material.OAK_LEAVES);
@@ -131,10 +127,10 @@ public class recipes {
 		craftstickrecp.addIngredient(Material.STICK);
 		Bukkit.addRecipe(craftstickrecp);
 
-		ShapelessRecipe sleepbag = new ShapelessRecipe(main.key("sleepbag"), vars.sleepbag);
+		/*ShapelessRecipe sleepbag = new ShapelessRecipe(main.key("sleepbag"), vars.sleepbag);
 		sleepbag.addIngredient(Material.WHITE_CARPET);
 		sleepbag.addIngredient(Material.WHITE_WOOL);
-		Bukkit.addRecipe(sleepbag);
+		Bukkit.addRecipe(sleepbag);*/
 		
 		/*ShapedRecipe MoltenPickRecp = new ShapedRecipe(main.key("MoltenPick"), vars.MoltenPickaxe).shape("dnd", " m ", " s ");
 		MoltenPickRecp.setIngredient('d', Material.DIAMOND);

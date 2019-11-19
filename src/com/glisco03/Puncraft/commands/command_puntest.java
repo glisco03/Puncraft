@@ -1,6 +1,7 @@
 package com.glisco03.Puncraft.commands;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,16 +10,20 @@ import com.mojang.authlib.yggdrasil.response.User;
 import io.netty.handler.codec.socksx.SocksPortUnificationServerHandler;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import com.glisco03.Puncraft.Utils.PuntestManager;
 import com.glisco03.Puncraft.main.vars;
+import sun.security.action.PutAllAction;
 
 public class command_puntest implements TabExecutor {
 
@@ -69,7 +74,15 @@ public class command_puntest implements TabExecutor {
                 } else if (args[0].equalsIgnoreCase("stop")) {
                     if (sender.hasPermission("Puncraft.puntest.stop")) {
                         if (PuntestManager.isRunning()) {
+                            Collection<Entity> j = Bukkit.getWorld("world").getNearbyEntities(new Location(Bukkit.getWorld("world"), 165, 118, 236), 2, 6, 2);
+                            for(Entity e : j){
+                                if(e.getType() == EntityType.ARMOR_STAND){
+                                    e.remove();
+                                }
+                            }
+                            PuntestManager.calculateLeaderboard(PuntestManager.getRanking());
                             for (Player player : Bukkit.getOnlinePlayers()) {
+                                player.playSound(player.getLocation(), "minecraft:pc.doom", 0.8f, 1f);
                                 player.sendMessage(vars.punprefix + "§7------§r§bDer Puntest hat geendet!§7------");
                                 if (PuntestManager.getPunAmount() == 0) {
                                     player.sendMessage(vars.punprefix + "§4Es wurden keine Puns abgeschickt!");
@@ -80,9 +93,9 @@ public class command_puntest implements TabExecutor {
                                     player.sendMessage(vars.punprefix + "§61. Platz: ");
                                     player.sendMessage(vars.punprefix + "§b" + contestant.getName() + "§a: " + PuntestManager.getPun(PuntestManager.getRanking().get(0)));
                                     if(player == contestant){
-                                        eco.depositPlayer(contestant, 500);
+                                        eco.depositPlayer(contestant, 2000);
                                         if(Bukkit.getOnlinePlayers().contains((Player)contestant)){
-                                            ((Player) contestant).sendMessage(vars.punprefix + "§aDu hast §6§l500 PunPoints§r§a gewonnen!");
+                                            ((Player) contestant).sendMessage(vars.punprefix + "§aDu hast §6§l2000 PunPoints§r§a gewonnen!");
                                         }
                                     }
                                     for (int i = 0; i < PuntestManager.getRanking().size() - 1; i++) {
@@ -91,9 +104,9 @@ public class command_puntest implements TabExecutor {
                                             player.sendMessage(vars.punprefix + "§7---");
                                             player.sendMessage(vars.punprefix  + "§b" + contestant.getName() + "§a: " + PuntestManager.getPun(PuntestManager.getRanking().get(i + 1)));
                                             if(player == contestant) {
-                                                eco.depositPlayer(contestant, 600 - (i + 1) * 100);
+                                                eco.depositPlayer(contestant, 2500 - (i + 1) * 500);
                                                 if (Bukkit.getOnlinePlayers().contains((Player) contestant)) {
-                                                    ((Player) contestant).sendMessage(vars.punprefix + "§aDu hast §6§l" + (600 - (i + 1) * 100) + " PunPoints§r§a gewonnen!");
+                                                    ((Player) contestant).sendMessage(vars.punprefix + "§aDu hast §6§l" + (2500 - (i + 1) * 500) + " PunPoints§r§a gewonnen!");
                                                 }
                                             }
                                         } else {
@@ -101,9 +114,9 @@ public class command_puntest implements TabExecutor {
                                             player.sendMessage(vars.punprefix + "§6" + (i + 2) + ". Platz: ");
                                             player.sendMessage(vars.punprefix  + "§b" + contestant.getName() + "§a: " + PuntestManager.getPun(PuntestManager.getRanking().get(i + 1)));
                                             if(player == contestant) {
-                                                eco.depositPlayer(contestant, 500 - (i + 2) * 100);
+                                                eco.depositPlayer(contestant, 2500 - (i + 2) * 500);
                                                 if (Bukkit.getOnlinePlayers().contains((Player) contestant)) {
-                                                    ((Player) contestant).sendMessage(vars.punprefix + "§aDu hast §6§l" + (500 - (i + 2) * 100) + " PunPoints§r§a gewonnen!");
+                                                    ((Player) contestant).sendMessage(vars.punprefix + "§aDu hast §6§l" + (2500 - (i + 2) * 500) + " PunPoints§r§a gewonnen!");
                                                 }
                                             }
                                         }
@@ -151,6 +164,9 @@ public class command_puntest implements TabExecutor {
                         sender.sendMessage("§cDu hast keine Permission!");
                         return true;
                     }
+                } else if (args[0].equalsIgnoreCase("reloadleaderbaord")) {
+                    PuntestManager.redrawLeaderboard();
+                    return true;
                 } else {
                     p.sendMessage(vars.punprefix + "§4Da fehlt was, mein Freund!");
                     return true;
@@ -159,7 +175,6 @@ public class command_puntest implements TabExecutor {
                 if (args[0].equalsIgnoreCase("start")) {
                     if (sender.hasPermission("Puncraft.puntest.start")) {
                         if (!PuntestManager.isRunning()) {
-
                             String topic = "";
                             for (int i = 1; i < args.length; i++) {
                                 topic = topic + args[i] + " ";
@@ -167,6 +182,7 @@ public class command_puntest implements TabExecutor {
                             PuntestManager.createPuntest(topic);
                             sender.sendMessage(vars.punprefix + "§2Puntest erstellt");
                             for (Player player : Bukkit.getOnlinePlayers()) {
+                                player.playSound(player.getLocation(), "minecraft:pc.bell", 0.8f, 2f);
                                 player.sendMessage(vars.punprefix + "§bEin neuer Puntest hat begonnen!");
                                 player.sendMessage(vars.punprefix + "§bDas Thema lautet: §a" + PuntestManager.getCurrentTopic());
                                 player.sendMessage(vars.punprefix + "§bSchicke deinen Pun mit /puntest submit \"Dein Pun\" ab!");
@@ -240,11 +256,12 @@ public class command_puntest implements TabExecutor {
         result.add("start");
         result.add("stop");
         result.add("changestate");
+        result.add("reloadleaderbaord");
         return result;
     }
 
     public boolean isAlphaNumeric(String s) {
-        String pattern = "^[a-zA-Z0-9]*$";
+        String pattern = "^[a-zA-Z0-9öäüÖÄÜ]*$";
         return s.matches(pattern);
     }
 }
